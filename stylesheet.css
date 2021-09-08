@@ -1,0 +1,74 @@
+body {
+    color: white;
+    padding: 0 16px;
+    padding-top: 16px;
+}
+
+sp-body {
+    border: 1px solid #808080;
+    border-radius: 4px;
+    width: 50%;
+    height: 50px;
+}
+
+
+#main {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    align-items: stretch;
+    justify-content: space-between;
+    height: 150px;
+
+}
+
+#slices {
+    display: flex;
+    flex-basis: content;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding-right: 10px;
+}
+
+.Slice {
+    border-radius: 4px;
+    font-size: 14px;
+    height: 30px;
+    padding-top: 2px;
+    padding-left: 10px;
+    width: 89px;
+    border: 1px solid #808080;
+
+
+}
+
+.EngineSelectText {
+    vertical-align: top;
+    line-height: 1px;
+    height: 0px
+}
+
+
+#options {
+
+    align-items: stretch;
+    flex-grow: 1;
+
+}
+
+#percentDecrease {
+    width: 100%;
+}
+
+#centerText {
+    text-justify: auto;
+    text-align: center;
+    align-content: center;
+    vertical-align: middle;
+}
+
+#engine {
+    width: 100%;
+}

@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TranslateSelection = exports.Deselect = exports.Select = exports.GetGuide = exports.CreateGuide = exports.TrimDocument = exports.Rasterize = exports.getLayerProperty = exports.Translation = exports.Rect = exports.Anchor = void 0;
-// @ts-ignore
+exports.DeleteHistory = exports.TranslateSelection = exports.Deselect = exports.Select = exports.GetGuide = exports.CreateGuide = exports.TrimDocument = exports.Rasterize = exports.getLayerProperty = exports.Translation = exports.Rect = exports.Anchor = void 0;
 const photoshop_1 = require("photoshop");
 var Anchor;
 (function (Anchor) {
@@ -38,12 +37,14 @@ class Translation {
 }
 exports.Translation = Translation;
 function getLayerProperty(_property) {
-    return photoshop_1.action.batchPlay([
-        {
-            _obj: 'get',
-            _target: [{ _property }, { _ref: 'layer', _enum: 'ordinal', _value: 'targetEnum' }],
-        },
-    ], { synchronousExecution: true })[0][_property];
+    let actionDesc = {
+        _obj: 'get',
+        _target: { _ref: 'layer', _enum: 'ordinal', _value: 'targetEnum' }
+    };
+    let options = { synchronousExecution: false };
+    let result = photoshop_1.action.batchPlay([actionDesc], options);
+    // @ts-ignore
+    return result[0][_property];
 }
 exports.getLayerProperty = getLayerProperty;
 async function Rasterize(id) {
@@ -51,6 +52,7 @@ async function Rasterize(id) {
         await photoshop_1.action.batchPlay([
             {
                 _obj: 'rasterizeLayer',
+                // @ts-ignore
                 _target: [{ _ref: 'layer', _id: id }],
                 what: { _enum: 'rasterizeItem', _value: 'layerStyle' },
                 _isCommand: true,
@@ -65,6 +67,7 @@ async function Rasterize(id) {
 exports.Rasterize = Rasterize;
 async function TrimDocument() {
     await photoshop_1.action.batchPlay([
+        // @ts-ignore
         {
             _obj: 'trim',
             trimBasedOn: { _enum: 'trimBasedOn', _value: 'transparency' },
@@ -89,6 +92,7 @@ async function CreateGuide(documentID, position, orientation) {
                 kind: { _enum: 'kind', _value: 'document' },
                 _target: [{ _ref: 'document', _id: documentID }, { _ref: 'good', _index: 1 }]
             },
+            // @ts-ignore
             _target: [{ _ref: 'good' }],
             guideTarget: { _enum: 'guideTarget', _value: 'guideTargetCanvas', _id: 22 },
             _isCommand: true,
@@ -102,6 +106,7 @@ async function GetGuide(documentId, Index) {
     const result = await photoshop_1.action.batchPlay([
         {
             _obj: 'get',
+            // @ts-ignore
             _target: [{ _ref: 'guide', _index: Index },
                 { _ref: 'document', _id: documentId }
             ],
@@ -115,6 +120,7 @@ async function Select(Bounds) {
     return await photoshop_1.action.batchPlay([
         {
             _obj: 'set',
+            // @ts-ignore
             _target: [{ _ref: 'channel', _property: 'selection' }],
             to: {
                 _obj: 'rectangle',
@@ -133,6 +139,7 @@ async function Deselect(id) {
     await photoshop_1.action.batchPlay([
         {
             _obj: 'set',
+            // @ts-ignore
             _target: [{ _ref: 'channel', _property: 'selection' }, { _ref: 'document', _id: id }],
             to: { _enum: 'ordinal', _value: 'none' },
             _isCommand: false,
@@ -162,6 +169,7 @@ async function TranslateSelection(Translation) {
     await photoshop_1.action.batchPlay([
         {
             _obj: 'transform',
+            // @ts-ignore
             _target: [{ _ref: 'layer', _enum: 'ordinal', _value: 'targetEnum' }],
             freeTransformCenterState: { _enum: 'quadCenterState', _value: Translation.Anchor },
             offset: {
@@ -178,4 +186,25 @@ async function TranslateSelection(Translation) {
     ], { synchronousExecution: false, modalBehavior: 'fail' });
 }
 exports.TranslateSelection = TranslateSelection;
+async function DeleteHistory() {
+    await photoshop_1.action.batchPlay([
+        {
+            _obj: 'select',
+            // @ts-ignore
+            _target: [{ _ref: 'historyState', _offset: -24 }],
+            _isCommand: false,
+            _options: { dialogOptions: 'dontDisplay' }
+        }
+    ], { synchronousExecution: false, modalBehavior: 'fail' });
+    await photoshop_1.action.batchPlay([
+        {
+            _obj: 'delete',
+            // @ts-ignore
+            _target: [{ _ref: 'historyState', _property: 'currentHistoryState' }],
+            _isCommand: false,
+            _options: { dialogOptions: 'dontDisplay' }
+        }
+    ], { synchronousExecution: false, modalBehavior: 'fail' });
+}
+exports.DeleteHistory = DeleteHistory;
 //# sourceMappingURL=BatchPlayFunctions.js.map

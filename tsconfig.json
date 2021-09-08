@@ -2,11 +2,17 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "esnext",
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "sourceMap": true,
     "strict": true,
     "outDir": "build/",
     "watch": true,
-    "allowJs": true
+    "allowJs": true,
+    "typeRoots": [
+      "node_modules/@types",
+      "node_modules/uxp-types"
+    ]
   },
   "exclude": [
     "node_modules"

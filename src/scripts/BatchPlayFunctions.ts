@@ -1,6 +1,4 @@
-// @ts-ignore
-import {action, LayerDescriptor} from "photoshop";
-import {Orientation} from "photoshop-types/types/Geometry";
+import {action, ActionDescriptor, BatchPlayCommandOptions, LayerDescriptor, Orientation} from "photoshop";
 
 export enum Anchor
 {
@@ -37,15 +35,17 @@ export class Translation {
     }
 }
 
-
-
 export function getLayerProperty <T extends keyof LayerDescriptor>(_property: T): LayerDescriptor[T] {
-    return action.batchPlay([
-        {
-            _obj: 'get',
-            _target: [{ _property }, { _ref: 'layer', _enum: 'ordinal', _value: 'targetEnum' }],
-        },
-    ], { synchronousExecution: true })[0][_property]
+
+    let actionDesc: ActionDescriptor = {
+        _obj : 'get',
+        _target:  { _ref: 'layer', _enum: 'ordinal', _value: 'targetEnum' }}
+    let options: BatchPlayCommandOptions = {synchronousExecution: false};
+
+
+    let result = action.batchPlay([actionDesc], options);
+    // @ts-ignore
+    return result[0][_property]
 }
 
 export async function Rasterize(id: number) {
@@ -53,6 +53,7 @@ export async function Rasterize(id: number) {
         await action.batchPlay([
             {
                 _obj: 'rasterizeLayer',
+                // @ts-ignore
                 _target: [{_ref: 'layer', _id: id}],
                 what: {_enum: 'rasterizeItem', _value: 'layerStyle'},
                 _isCommand: true,
@@ -65,8 +66,8 @@ export async function Rasterize(id: number) {
 }
 
 export async function TrimDocument() {
-    await action.batchPlay(
-        [
+    await action.batchPlay([
+            // @ts-ignore
             {
                 _obj: 'trim',
                 trimBasedOn: { _enum: 'trimBasedOn', _value: 'transparency' },
@@ -93,6 +94,7 @@ export async function CreateGuide (documentID: number, position: number, orienta
                     kind: { _enum: 'kind', _value: 'document' },
                     _target: [{ _ref: 'document', _id: documentID }, { _ref: 'good', _index: 1 }]
                 },
+                // @ts-ignore
                 _target: [{ _ref: 'good' }],
                 guideTarget: { _enum: 'guideTarget', _value: 'guideTargetCanvas', _id: 22 },
                 _isCommand: true,
@@ -109,6 +111,7 @@ export async function GetGuide (documentId: number, Index: number) {
         [
             {
                 _obj: 'get',
+                // @ts-ignore
                 _target: [{ _ref: 'guide', _index: Index },
                     { _ref: 'document', _id: documentId }
                 ],
@@ -126,6 +129,7 @@ export async function Select (Bounds: Rect) {
         [
             {
                 _obj: 'set',
+                // @ts-ignore
                 _target: [{ _ref: 'channel', _property: 'selection' }],
                 to: {
                     _obj: 'rectangle',
@@ -145,6 +149,7 @@ export async function Deselect (id: number) {
         [
             {
                 _obj: 'set',
+                // @ts-ignore
                 _target: [{ _ref: 'channel', _property: 'selection' }, { _ref: 'document', _id: id }],
                 to: { _enum: 'ordinal', _value: 'none' },
                 _isCommand: false,
@@ -176,6 +181,7 @@ export async function TranslateSelection (Translation: Translation) {
         [
             {
                 _obj: 'transform',
+                // @ts-ignore
                 _target: [{ _ref: 'layer', _enum: 'ordinal', _value: 'targetEnum' }],
                 freeTransformCenterState: { _enum: 'quadCenterState', _value: Translation.Anchor },
                 offset: {
@@ -186,6 +192,31 @@ export async function TranslateSelection (Translation: Translation) {
                 width: { _unit: 'percentUnit', _value: Translation.WidthPercent },
                 height: { _unit: 'percentUnit', _value: Translation.HeightPercent },
                 interfaceIconFrameDimmed: { _enum: 'interpolationType', _value: '"nearestNeighbor"' },
+                _isCommand: false,
+                _options: { dialogOptions: 'dontDisplay' }
+            }
+        ], { synchronousExecution: false, modalBehavior: 'fail' })
+}
+
+export async function DeleteHistory () {
+    await action.batchPlay(
+        [
+            {
+                _obj: 'select',
+                // @ts-ignore
+
+                _target: [{ _ref: 'historyState', _offset: -24 }],
+                _isCommand: false,
+                _options: { dialogOptions: 'dontDisplay' }
+            }
+        ], { synchronousExecution: false, modalBehavior: 'fail' })
+
+    await action.batchPlay(
+        [
+            {
+                _obj: 'delete',
+                // @ts-ignore
+                _target: [{ _ref: 'historyState', _property: 'currentHistoryState' }],
                 _isCommand: false,
                 _options: { dialogOptions: 'dontDisplay' }
             }

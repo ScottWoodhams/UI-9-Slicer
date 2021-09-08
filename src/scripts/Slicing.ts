@@ -1,21 +1,26 @@
-// @ts-ignore
-import {action, app, BevelEmbossStyle, Direction, Document, Layer, PsCommon, Rectangle} from 'photoshop'
-import {Anchor, Deselect, GetGuide, Rect, Select, TranslateSelection, Translation, TrimDocument} from './BatchPlayFunctions';
+import {
+    Anchor,
+    Deselect,
+    GetGuide,
+    Rect,
+    Select,
+    TranslateSelection,
+    Translation,
+    TrimDocument
+} from './BatchPlayFunctions';
 
 
-
-export async function ReadGuides(documentID: number): Rectangle {
+export async function ReadGuides(documentID: number): Promise<Rect> {
     let Top: number = Math.floor(await GetGuide(documentID, 1));
     let Left: number = Math.floor(await GetGuide(documentID, 2));
     let Bottom: number = Math.floor(await GetGuide(documentID, 3));
     let Right: number = Math.floor(await GetGuide(documentID, 4));
-
-    return {Top, Left, Bottom, Right}
+    return new Rect(Top, Left, Bottom, Right)
 }
 
 const ScalePercent = 33
 
-export async function ExecuteSlice(Slices: Rectangle, CanvasWidth: number, CanvasHeight: number, DocID: number) {
+export async function ExecuteSlice(Slices: Rect, CanvasWidth: number, CanvasHeight: number, DocID: number) {
     const ZO = 0
     const ST = Slices.Top
     const SL = Slices.Left

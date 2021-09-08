@@ -7,7 +7,7 @@ async function ReadGuides(documentID) {
     let Left = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 2));
     let Bottom = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 3));
     let Right = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 4));
-    return { Top, Left, Bottom, Right };
+    return new BatchPlayFunctions_1.Rect(Top, Left, Bottom, Right);
 }
 exports.ReadGuides = ReadGuides;
 const ScalePercent = 33;
