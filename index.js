@@ -38,8 +38,9 @@ async function Execute () {
   const DocID = app.activeDocument._id
   const inputScale = document.querySelector('#percentDecrease').value
   const ScalePercent = parseInt(inputScale.value)
+  const toPowerOfTwo = document.querySelector('#toNearestPow2').checked
 
-  await ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent)
+  await ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent, toPowerOfTwo)
 }
 
 async function UpdateGuidesPositions () {
