@@ -9,6 +9,21 @@ import {
     TrimDocument
 } from './BatchPlayFunctions';
 
+export function nearestPowerOf2(n: number) {
+    return 1 << 31 - Math.clz32(n);
+}
+
+export async function CalculatePowerOfSize(documentID: number)
+{
+    const guides: Rect = await ReadGuides(documentID)
+    const widthDelta =  guides.Right - guides.Left
+    const heightDelta =  guides.Bottom - guides.Top
+
+    let newWidth = nearestPowerOf2(widthDelta)
+    let newHeight = nearestPowerOf2(heightDelta)
+
+    return { newWidth, newHeight }
+}
 
 export async function ReadGuides(documentID: number): Promise<Rect> {
     let Top: number = Math.floor(await GetGuide(documentID, 1));
@@ -18,7 +33,7 @@ export async function ReadGuides(documentID: number): Promise<Rect> {
     return new Rect(Top, Left, Bottom, Right)
 }
 
-export async function ExecuteSlice(Slices: Rect, CanvasWidth: number, CanvasHeight: number, DocID: number, ScalePercent: number) {
+export async function ExecuteSlice(Slices: Rect, CanvasWidth: number, CanvasHeight: number, DocID: number, ScalePercent: number, po2: boolean) {
     const ZO = 0
     const ST = Slices.Top
     const SL = Slices.Left
@@ -26,6 +41,14 @@ export async function ExecuteSlice(Slices: Rect, CanvasWidth: number, CanvasHeig
     const SB = Slices.Bottom
     const CH = CanvasHeight
     const CW = CanvasWidth
+    let ScaleWidth = ScalePercent
+    let ScaleHeight = ScalePercent
+
+    if(po2) {
+        let newSize = await CalculatePowerOfSize(DocID)
+        ScaleWidth = CW / newSize.newWidth
+        ScaleHeight = CW / newSize.newHeight
+    }
 
     const NN = new Rect(ZO, SL, ST, SR)
     const WW = new Rect(ST, ZO, SB, SL)
@@ -36,17 +59,18 @@ export async function ExecuteSlice(Slices: Rect, CanvasWidth: number, CanvasHeig
     const NE = new Rect(ZO, SR, ST, CW)
     const CB = new Rect(ST, SL, SB, SR)
 
-    const NTranslation = new Translation(ScalePercent, 100, 0, 0, Anchor.AnchorW);
-    const WTranslation = new Translation(100,ScalePercent, 0, 0, Anchor.AnchorN);
-    const CTranslation = new Translation(ScalePercent, ScalePercent, 0,0, Anchor.AnchorNW)
+    const NTranslation = new Translation(ScaleWidth, 100, 0, 0, Anchor.AnchorW);
+    const WTranslation = new Translation(100, ScaleHeight, 0, 0, Anchor.AnchorN);
+    const CTranslation = new Translation(ScaleWidth, ScaleHeight, 0,0, Anchor.AnchorNW)
 
     const CenterWidth = SR - SL
     const CenterHeight = SB - ST
-    const XMove = -((CenterWidth) - (CenterWidth) * (ScalePercent / 100))
-    const YMove = -((CenterHeight) - (CenterHeight) * (ScalePercent / 100))
 
-    const ETranslation = new Translation(100,  ScalePercent, XMove, 0, Anchor.AnchorNW)
-    const STranslation = new Translation(ScalePercent,100, 0, YMove, Anchor.AnchorNW)
+    const XMove = -((CenterWidth) - (CenterWidth) * (ScaleWidth / 100))
+    const YMove = -((CenterHeight) - (CenterHeight) * (ScaleHeight / 100))
+
+    const ETranslation = new Translation(100, ScaleHeight, XMove, 0, Anchor.AnchorNW)
+    const STranslation = new Translation(ScaleWidth,100, 0, YMove, Anchor.AnchorNW)
     const NETranslation = new Translation(100,100, XMove,  0, Anchor.AnchorW)
     const SWTranslation = new Translation(100, 100, 0, YMove, Anchor.AnchorN)
     const SETranslation = new Translation(100, 100,XMove, YMove, Anchor.AnchorNW)

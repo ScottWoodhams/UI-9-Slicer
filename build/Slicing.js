@@ -1,7 +1,20 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ExecuteSlice = exports.ReadGuides = void 0;
+exports.ExecuteSlice = exports.ReadGuides = exports.CalculatePowerOfSize = exports.nearestPowerOf2 = void 0;
 const BatchPlayFunctions_1 = require("./BatchPlayFunctions");
+function nearestPowerOf2(n) {
+    return 1 << 31 - Math.clz32(n);
+}
+exports.nearestPowerOf2 = nearestPowerOf2;
+async function CalculatePowerOfSize(documentID) {
+    const guides = await ReadGuides(documentID);
+    const widthDelta = guides.Right - guides.Left;
+    const heightDelta = guides.Bottom - guides.Top;
+    let newWidth = nearestPowerOf2(widthDelta);
+    let newHeight = nearestPowerOf2(heightDelta);
+    return { newWidth, newHeight };
+}
+exports.CalculatePowerOfSize = CalculatePowerOfSize;
 async function ReadGuides(documentID) {
     let Top = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 1));
     let Left = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 2));
@@ -10,7 +23,7 @@ async function ReadGuides(documentID) {
     return new BatchPlayFunctions_1.Rect(Top, Left, Bottom, Right);
 }
 exports.ReadGuides = ReadGuides;
-async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent) {
+async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent, po2) {
     const ZO = 0;
     const ST = Slices.Top;
     const SL = Slices.Left;
@@ -18,6 +31,13 @@ async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePerce
     const SB = Slices.Bottom;
     const CH = CanvasHeight;
     const CW = CanvasWidth;
+    let ScaleWidth = ScalePercent;
+    let ScaleHeight = ScalePercent;
+    if (po2) {
+        let newSize = await CalculatePowerOfSize(DocID);
+        ScaleWidth = CW / newSize.newWidth;
+        ScaleHeight = CW / newSize.newHeight;
+    }
     const NN = new BatchPlayFunctions_1.Rect(ZO, SL, ST, SR);
     const WW = new BatchPlayFunctions_1.Rect(ST, ZO, SB, SL);
     const SW = new BatchPlayFunctions_1.Rect(SB, ZO, CH, SL);
@@ -26,15 +46,15 @@ async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePerce
     const EE = new BatchPlayFunctions_1.Rect(ST, SR, SB, CW);
     const NE = new BatchPlayFunctions_1.Rect(ZO, SR, ST, CW);
     const CB = new BatchPlayFunctions_1.Rect(ST, SL, SB, SR);
-    const NTranslation = new BatchPlayFunctions_1.Translation(ScalePercent, 100, 0, 0, BatchPlayFunctions_1.Anchor.AnchorW);
-    const WTranslation = new BatchPlayFunctions_1.Translation(100, ScalePercent, 0, 0, BatchPlayFunctions_1.Anchor.AnchorN);
-    const CTranslation = new BatchPlayFunctions_1.Translation(ScalePercent, ScalePercent, 0, 0, BatchPlayFunctions_1.Anchor.AnchorNW);
+    const NTranslation = new BatchPlayFunctions_1.Translation(ScaleWidth, 100, 0, 0, BatchPlayFunctions_1.Anchor.AnchorW);
+    const WTranslation = new BatchPlayFunctions_1.Translation(100, ScaleHeight, 0, 0, BatchPlayFunctions_1.Anchor.AnchorN);
+    const CTranslation = new BatchPlayFunctions_1.Translation(ScaleWidth, ScaleHeight, 0, 0, BatchPlayFunctions_1.Anchor.AnchorNW);
     const CenterWidth = SR - SL;
     const CenterHeight = SB - ST;
-    const XMove = -((CenterWidth) - (CenterWidth) * (ScalePercent / 100));
-    const YMove = -((CenterHeight) - (CenterHeight) * (ScalePercent / 100));
-    const ETranslation = new BatchPlayFunctions_1.Translation(100, ScalePercent, XMove, 0, BatchPlayFunctions_1.Anchor.AnchorNW);
-    const STranslation = new BatchPlayFunctions_1.Translation(ScalePercent, 100, 0, YMove, BatchPlayFunctions_1.Anchor.AnchorNW);
+    const XMove = -((CenterWidth) - (CenterWidth) * (ScaleWidth / 100));
+    const YMove = -((CenterHeight) - (CenterHeight) * (ScaleHeight / 100));
+    const ETranslation = new BatchPlayFunctions_1.Translation(100, ScaleHeight, XMove, 0, BatchPlayFunctions_1.Anchor.AnchorNW);
+    const STranslation = new BatchPlayFunctions_1.Translation(ScaleWidth, 100, 0, YMove, BatchPlayFunctions_1.Anchor.AnchorNW);
     const NETranslation = new BatchPlayFunctions_1.Translation(100, 100, XMove, 0, BatchPlayFunctions_1.Anchor.AnchorW);
     const SWTranslation = new BatchPlayFunctions_1.Translation(100, 100, 0, YMove, BatchPlayFunctions_1.Anchor.AnchorN);
     const SETranslation = new BatchPlayFunctions_1.Translation(100, 100, XMove, YMove, BatchPlayFunctions_1.Anchor.AnchorNW);

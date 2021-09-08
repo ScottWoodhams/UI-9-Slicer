@@ -222,3 +222,4 @@ export async function DeleteHistory () {
             }
         ], { synchronousExecution: false, modalBehavior: 'fail' })
 }
+
