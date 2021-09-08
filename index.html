@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="EN">
+<head>
+  <link rel="stylesheet" href="stylesheet.css">
+    <script src="index.js"></script>
+  <title></title>
+</head>
+<style>
+
+</style>
+<body>
+  <div id="main">
+    <div id="slices">
+      <div id="Top" class="Slice">Top</div>
+      <div id="Right" class="Slice">Right</div>
+      <div id="Bottom" class="Slice">Bottom</div>
+      <div id="Left" class="Slice">Left</div>
+    </div>
+    <div id="options">
+      <sp-checkbox>To nearest Po2</sp-checkbox>
+
+      <sp-detail class="EngineSelectText">Scale for center (%)</sp-detail>
+      <input id="percentDecrease" type="number" placeholder="33" min="1" max="100">
+
+      <sp-dropdown id="engine" placeholder="Select Engine...">
+        <sp-menu slot="options">
+          <sp-menu-item> Unity </sp-menu-item>
+          <sp-menu-item> Unreal </sp-menu-item>
+
+          <sp-menu-divider></sp-menu-divider>
+          <sp-menu-item> None </sp-menu-item>
+        </sp-menu>
+      </sp-dropdown>
+    </div>
+  </div>
+  <footer>
+    <sp-action-button id="btnSetup"">Setup</sp-action-button>
+    <sp-action-button id="btnSlice"">Slice</sp-action-button>
+    <sp-action-button id="btnReset" >Reset</sp-action-button>
+  </footer>
+</body>
+</html>
