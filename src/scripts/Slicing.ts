@@ -18,9 +18,7 @@ export async function ReadGuides(documentID: number): Promise<Rect> {
     return new Rect(Top, Left, Bottom, Right)
 }
 
-const ScalePercent = 33
-
-export async function ExecuteSlice(Slices: Rect, CanvasWidth: number, CanvasHeight: number, DocID: number) {
+export async function ExecuteSlice(Slices: Rect, CanvasWidth: number, CanvasHeight: number, DocID: number, ScalePercent: number) {
     const ZO = 0
     const ST = Slices.Top
     const SL = Slices.Left

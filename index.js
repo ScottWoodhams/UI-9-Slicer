@@ -9,7 +9,7 @@ const btnSlice = document.getElementById('btnSlice')
 
 btnSetup.addEventListener('click', SetupInNewDoc)
 btnReset.addEventListener('click', Reset)
-btnSlice.addEventListener('click', ExecuteSlice)
+btnSlice.addEventListener('click', Execute)
 btnReset.disabled = true
 
 const sliceTop = document.getElementById('Top')
@@ -29,6 +29,17 @@ async function SetupInNewDoc () {
 async function Reset () {
   await DeleteHistory()
   btnReset.disabled = true
+}
+
+async function Execute () {
+  const Slices = await ReadGuides(app.activeDocument._id)
+  const CanvasWidth = app.activeDocument.width
+  const CanvasHeight = app.activeDocument.height
+  const DocID = app.activeDocument._id
+  const inputScale = document.querySelector('#percentDecrease').value
+  const ScalePercent = parseInt(inputScale.value)
+
+  await ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent)
 }
 
 async function UpdateGuidesPositions () {
