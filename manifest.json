@@ -13,7 +13,7 @@
   "entrypoints": [
     {
       "type": "panel",
-      "id": "vanilla",
+      "id": "Slicer",
       "minimumSize": {
         "width": 230,
         "height": 200
@@ -31,7 +31,7 @@
         "height": 300
       },
       "label": {
-        "default": "Starter Panel"
+        "default": "UI 9-Slicer"
       }
     }
   ],
