@@ -10,8 +10,7 @@ async function ReadGuides(documentID) {
     return new BatchPlayFunctions_1.Rect(Top, Left, Bottom, Right);
 }
 exports.ReadGuides = ReadGuides;
-const ScalePercent = 33;
-async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID) {
+async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent) {
     const ZO = 0;
     const ST = Slices.Top;
     const SL = Slices.Left;
