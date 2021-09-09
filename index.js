@@ -37,7 +37,14 @@ async function Execute () {
   const CanvasHeight = app.activeDocument.height
   const DocID = app.activeDocument._id
   const inputScale = document.querySelector('#percentDecrease').value
-  const ScalePercent = parseInt(inputScale.value)
+
+  let ScalePercent = parseInt(inputScale.value)
+
+  // default to a value if no value exists
+  if (isNaN(ScalePercent)) {
+    ScalePercent = 33
+  }
+
   const toPowerOfTwo = document.querySelector('#toNearestPow2').checked
 
   await ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent, toPowerOfTwo)
