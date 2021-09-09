@@ -2,6 +2,7 @@ const { app, action } = window.require('photoshop')
 const { Setup } = require('./build/Setup')
 const { ReadGuides, ExecuteSlice } = require('./build/Slicing')
 const { DeleteHistory } = require('./build/BatchPlayFunctions')
+const { TestRun } = require('./build/Test')
 
 const btnReset = document.getElementById('btnReset')
 const btnSetup = document.getElementById('btnSetup')
