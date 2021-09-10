@@ -1,8 +1,8 @@
 {
-  "name": "uxp-template-ps-starter",
+  "name": "ui-nine-slicer",
   "version": "1.0.0",
-  "description": "Starter template for creating Adobe UXP based photoshop plugin.",
-  "author": "Adobe Inc",
+  "description": "Plugin to help easily 9slice a texture for game UI",
+  "author": "Scott Woodhams",
   "license": "Apache-2.0",
   "dependencies": {},
   "devDependencies": {
