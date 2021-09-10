@@ -1,0 +1,16 @@
+{
+  "name": "uxp-template-ps-starter",
+  "version": "1.0.0",
+  "description": "Starter template for creating Adobe UXP based photoshop plugin.",
+  "author": "Adobe Inc",
+  "license": "Apache-2.0",
+  "dependencies": {},
+  "devDependencies": {
+    "photoshop-types": "^1.0.6",
+    "uxp-types": "^0.1.2",
+    "ts-node": "^10.2.1",
+    "typescript": "^4.4.2",
+    "standard": "^16.0.3",
+    "ts-standard": "^10.0.0"
+  }
+}
