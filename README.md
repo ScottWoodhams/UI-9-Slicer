@@ -12,17 +12,17 @@ So the texture can be stretched or tiled later in engine. This is used often in 
 Pressing the setup button will take the current selected layer, duplicate it into a new document, rasterize the layer and then trim the document.
 Providing with a clean doc, move the generated guides to where the texture should be sliced. 
 
-![img.png](img.png)
+![img.png](imgs/img.png)
 
 ###Slice 
 Pressing the slice button will execute the slice process. This will scale down the sides, move the corners and trim doc, the texture will then be ready to export.
-![img.png](9SliceExecute.gif)
+![img.png](imgs/9SliceExecute.gif)
 
 ###Reset
 Pressing the reset button (it will be disabled when not applicable), will undo the changes to the sliced sprite and set it back to where the guides have been moved.
 This allows for any adjustments if the slicing does not look correct.
 ---
-![img.png](9SliceReset.gif)
+![img.png](imgs/9SliceReset.gif)
 
 Settings
 
