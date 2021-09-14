@@ -50,6 +50,7 @@ async function Execute () {
   const toPowerOfTwo = document.querySelector('#toNearestPow2').checked
 
   await ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent, toPowerOfTwo)
+  btnReset.disabled = false
 }
 
 async function UpdateGuidesPositions () {
