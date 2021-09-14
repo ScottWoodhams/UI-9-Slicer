@@ -57,10 +57,10 @@ async function UpdateGuidesPositions () {
   const dropdown = document.getElementById('engine')
 
   if (dropdown.value === ' Unreal ') {
-    sliceTop.textContent = 'Top | ' + guides.Top / app.activeDocument.height
-    sliceLeft.textContent = 'Left | ' + guides.Left / app.activeDocument.width
-    sliceBottom.textContent = 'Bottom | ' + (1 - (guides.Bottom / app.activeDocument.height))
-    sliceRight.textContent = 'Right | ' + (1 - (guides.Right / app.activeDocument.width))
+    sliceTop.textContent = 'Top | ' + (guides.Top / app.activeDocument.height).toFixed(3)
+    sliceLeft.textContent = 'Left | ' + (guides.Left / app.activeDocument.width).toFixed(3)
+    sliceBottom.textContent = 'Bottom | ' + (1 - (guides.Bottom / app.activeDocument.height)).toFixed(3)
+    sliceRight.textContent = 'Right | ' + (1 - (guides.Right / app.activeDocument.width)).toFixed(3)
   } else {
     sliceTop.textContent = 'Top | ' + guides.Top
     sliceLeft.textContent = 'Left | ' + guides.Left
