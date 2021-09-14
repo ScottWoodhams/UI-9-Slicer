@@ -20,7 +20,7 @@ body {
     flex-direction: column;
     align-items: stretch;
     justify-content: space-between;
-    flex-grow: 1;
+    flex-grow: 2;
     padding-right: 10px;
 }
 
@@ -30,7 +30,7 @@ body {
     height: 30px;
     padding-top: 2px;
     padding-left: 10px;
-    width: 89px;
+    width: 150px;
     border: 1px solid #808080;
 
 

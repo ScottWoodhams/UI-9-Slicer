@@ -3,7 +3,7 @@ const { entrypoints } = window.require('uxp')
 const { Setup } = require('./build/Setup')
 const { ReadGuides, ExecuteSlice } = require('./build/Slicing')
 const { DeleteHistory } = require('./build/BatchPlayFunctions')
-const { TestRun } = require('./build/Test')
+// const { TestRun } = require('./build/Test')
 
 const btnReset = document.getElementById('btnReset')
 const btnSetup = document.getElementById('btnSetup')
@@ -54,11 +54,19 @@ async function Execute () {
 
 async function UpdateGuidesPositions () {
   const guides = await ReadGuides(app.activeDocument._id)
-  console.log(guides)
-  sliceTop.textContent = 'Top | ' + guides.Top
-  sliceLeft.textContent = 'Left | ' + guides.Left
-  sliceBottom.textContent = 'Bottom | ' + guides.Bottom
-  sliceRight.textContent = 'Right | ' + guides.Right
+  const dropdown = document.getElementById('engine')
+
+  if (dropdown.value === ' Unreal ') {
+    sliceTop.textContent = 'Top | ' + (guides.Top / app.activeDocument.height).toFixed(3)
+    sliceLeft.textContent = 'Left | ' + (guides.Left / app.activeDocument.width).toFixed(3)
+    sliceBottom.textContent = 'Bottom | ' + (1 - (guides.Bottom / app.activeDocument.height)).toFixed(3)
+    sliceRight.textContent = 'Right | ' + (1 - (guides.Right / app.activeDocument.width)).toFixed(3)
+  } else {
+    sliceTop.textContent = 'Top | ' + guides.Top
+    sliceLeft.textContent = 'Left | ' + guides.Left
+    sliceBottom.textContent = 'Bottom | ' + guides.Bottom
+    sliceRight.textContent = 'Right | ' + guides.Right
+  }
 }
 
 async function openHelpDialog () {
@@ -71,6 +79,10 @@ async function openHelpDialog () {
       height: 240
     }
   })
+}
+
+document.getElementById('engine').onchange = async function () {
+  await UpdateGuidesPositions()
 }
 
 // set up entry points -- this defines the Reload Plugin handler
