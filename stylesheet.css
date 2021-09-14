@@ -4,18 +4,6 @@ body {
     padding-top: 16px;
 }
 
-.slicfe {
-    border: 1px solid #808080;
-    border-radius: 4px;
-    width: 50%;
-    height: 50px;
-}
-
-.dialog-body {
-
-}
-
-
 #main {
     display: flex;
     flex-direction: row;
