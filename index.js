@@ -64,10 +64,10 @@ async function UpdateGuidesPositions () {
 async function openHelpDialog () {
   const theDialog = document.getElementById('dialog-help')
   const r = await theDialog.uxpShowModal({
-    title: 'Programmatic Dialog',
+    title: 'UI Nine-Slicer Help',
     resize: 'none', // "both", "horizontal", "vertical",
     size: {
-      width: 480,
+      width: 880,
       height: 240
     }
   })
