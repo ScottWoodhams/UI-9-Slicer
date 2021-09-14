@@ -1,4 +1,5 @@
 const { app, action } = window.require('photoshop')
+const { entrypoints } = window.require('uxp')
 const { Setup } = require('./build/Setup')
 const { ReadGuides, ExecuteSlice } = require('./build/Slicing')
 const { DeleteHistory } = require('./build/BatchPlayFunctions')
@@ -59,5 +60,38 @@ async function UpdateGuidesPositions () {
   sliceBottom.textContent = 'Bottom | ' + guides.Bottom
   sliceRight.textContent = 'Right | ' + guides.Right
 }
+
+async function openHelpDialog () {
+  const theDialog = document.getElementById('dialog-help')
+  const r = await theDialog.uxpShowModal({
+    title: 'UI Nine-Slicer Help',
+    resize: 'none', // "both", "horizontal", "vertical",
+    size: {
+      width: 880,
+      height: 240
+    }
+  })
+}
+
+// set up entry points -- this defines the Reload Plugin handler
+// and the panel (including its associated flyout items)
+entrypoints.setup({
+  commands: {
+    // openHelp: () => openHelpDialog()
+  },
+  panels: {
+    Slicer: {
+      show ({ node } = {}) {},
+      menuItems: [
+        { id: 'helpDialog', label: 'Show Dialog', checked: false, enabled: true }
+      ],
+      invokeMenu (id) {
+        switch (id) {
+          case 'helpDialog': openHelpDialog(); break
+        }
+      }
+    }
+  }
+})
 
 console.log('rebuilt')
