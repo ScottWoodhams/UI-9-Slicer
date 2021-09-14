@@ -96,7 +96,7 @@ entrypoints.setup({
     Slicer: {
       show ({ node } = {}) {},
       menuItems: [
-        { id: 'helpDialog', label: 'Show Dialog', checked: false, enabled: true }
+        { id: 'helpDialog', label: 'Help', checked: false, enabled: true }
       ],
       invokeMenu (id) {
         switch (id) {
