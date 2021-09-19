@@ -14,54 +14,31 @@
     {
       "type": "panel",
       "id": "Slicer",
-      "minimumSize": {
-        "width": 230,
-        "height": 200
-      },
-      "maximumSize": {
-        "width": 400,
-        "height": 400
-      },
-      "preferredDockedSize": {
-        "width": 230,
-        "height": 300
-      },
-      "preferredFloatingSize": {
-        "width": 230,
-        "height": 300
-      },
-      "label": {
-        "default": "UI 9-Slicer"
-      }
+      "minimumSize": { "width": 230, "height": 200 },
+      "maximumSize": { "width": 400, "height": 400 },
+      "preferredDockedSize": { "width": 230, "height": 300 },
+      "preferredFloatingSize": { "width": 230, "height": 300 },
+      "label": { "default": "Open Panel" },
+      "icons": [
+        {
+          "path": "icons/dark.png",
+          "width": 23, "height": 23, "scale": [1, 2], "theme": ["darkest", "dark", "medium"]
+        },
+        {
+          "path": "icons/light.png",
+          "width": 23, "height": 23, "scale": [ 1, 2 ], "theme": ["lightest", "light"]
+        }
+      ]
     }
   ],
   "icons": [
     {
-      "width": 23,
-      "height": 23,
       "path": "icons/dark.png",
-      "scale": [
-        1,
-        2
-      ],
-      "theme": [
-        "darkest",
-        "dark",
-        "medium"
-      ]
+      "width": 23, "height": 23, "scale": [1, 2], "theme": ["darkest", "dark", "medium"]
     },
     {
-      "width": 23,
-      "height": 23,
       "path": "icons/light.png",
-      "scale": [
-        1,
-        2
-      ],
-      "theme": [
-        "lightest",
-        "light"
-      ]
+      "width": 23, "height": 23, "scale": [ 1, 2 ], "theme": ["lightest", "light"]
     }
   ]
 }
