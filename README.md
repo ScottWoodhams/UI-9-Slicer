@@ -3,8 +3,9 @@
 This plugin is designed to speed up the process of 9-slicing a texture for UI game development. 
 
 ##Pre-built
-You can find the pre-packaged version of the plugin in the [package](package) folder. To package the plugin yourself follow the instructions at the bottom.
-To install, just make sure you have photoshop 2021 or above installed and double-click the plugin file.
+You can find the pre-packaged version of the plugin at [package/ui.nine.slicer_PS](package). To package the plugin yourself follow the instructions at the bottom.
+To install, just make sure you have Photoshop 2021 or above installed and double-click the plugin file.
+
 ##What is 9/Nine-slicing?
 
 Nine slicing is the process of turning a big texture into a smaller one by shrinking the sides and center of the texture, retaining the corners.
