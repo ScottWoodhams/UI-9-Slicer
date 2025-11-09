@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TestRun = void 0;
+exports.TestRun = TestRun;
 const Setup_1 = require("./Setup");
 const photoshop_1 = require("photoshop");
 const BatchPlayFunctions_1 = require("./BatchPlayFunctions");
@@ -18,10 +18,10 @@ async function TestRun(ScalePercent, toPowerOfTwo) {
         const w = photoshop_1.app.activeDocument.width;
         const h = photoshop_1.app.activeDocument.height;
         await ClearGuides();
-        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 70, "horizontal" /* horizontal */);
-        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 50, "vertical" /* vertical */);
-        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 210, "horizontal" /* horizontal */);
-        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 165, "vertical" /* vertical */);
+        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 70, "horizontal" /* Orientation.horizontal */);
+        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 50, "vertical" /* Orientation.vertical */);
+        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 210, "horizontal" /* Orientation.horizontal */);
+        await (0, BatchPlayFunctions_1.CreateGuide)(sliceDocID, 165, "vertical" /* Orientation.vertical */);
         const Slices = await (0, Slicing_1.ReadGuides)(sliceDocID);
         const CanvasWidth = photoshop_1.app.activeDocument.width;
         const CanvasHeight = photoshop_1.app.activeDocument.height;
@@ -31,7 +31,6 @@ async function TestRun(ScalePercent, toPowerOfTwo) {
         console.error(e);
     }
 }
-exports.TestRun = TestRun;
 async function ClearGuides() {
     await photoshop_1.action.batchPlay([
         // @ts-ignore

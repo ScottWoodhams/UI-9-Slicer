@@ -5,7 +5,7 @@ import {CreateGuide, Rasterize, TrimDocument} from "./BatchPlayFunctions";
 export async function Setup() {
 
     const activeLayer: Layer = app.activeDocument.activeLayers[0];
-
+    console.log(activeLayer)
     let sliceDoc: Document = <Document>await app.createDocument({
         width: app.activeDocument.width,
         height: app.activeDocument.height,

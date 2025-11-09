@@ -7,15 +7,17 @@
     "sourceMap": true,
     "strict": true,
     "outDir": "build/",
-    "watch": true,
     "allowJs": true,
     "typeRoots": [
       "node_modules/@types",
       "node_modules/uxp-types"
-    ]
+    ],
+    "types": ["node"],  // Add this
+    "skipLibCheck": true  // Add this to ignore the uxp-types error
   },
   "exclude": [
     "node_modules"
+    
   ],
   "include": [
   "src/scripts/**/*"

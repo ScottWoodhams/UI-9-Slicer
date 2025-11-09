@@ -1,13 +1,22 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.DeleteHistory = exports.TranslateSelection = exports.Deselect = exports.Select = exports.GetGuide = exports.CreateGuide = exports.TrimDocument = exports.Rasterize = exports.getLayerProperty = exports.Translation = exports.Rect = exports.Anchor = void 0;
+exports.Translation = exports.Rect = exports.Anchor = void 0;
+exports.getLayerProperty = getLayerProperty;
+exports.Rasterize = Rasterize;
+exports.TrimDocument = TrimDocument;
+exports.CreateGuide = CreateGuide;
+exports.GetGuide = GetGuide;
+exports.Select = Select;
+exports.Deselect = Deselect;
+exports.TranslateSelection = TranslateSelection;
+exports.DeleteHistory = DeleteHistory;
 const photoshop_1 = require("photoshop");
 var Anchor;
 (function (Anchor) {
     Anchor["AnchorN"] = "QCSSide0";
     Anchor["AnchorW"] = "QCSSide3";
     Anchor["AnchorNW"] = "QCSCorner0";
-})(Anchor = exports.Anchor || (exports.Anchor = {}));
+})(Anchor || (exports.Anchor = Anchor = {}));
 class Rect {
     Top;
     Left;
@@ -46,7 +55,6 @@ function getLayerProperty(_property) {
     // @ts-ignore
     return result[0][_property];
 }
-exports.getLayerProperty = getLayerProperty;
 async function Rasterize(id) {
     try {
         await photoshop_1.action.batchPlay([
@@ -64,7 +72,6 @@ async function Rasterize(id) {
         console.log(e);
     }
 }
-exports.Rasterize = Rasterize;
 async function TrimDocument() {
     await photoshop_1.action.batchPlay([
         // @ts-ignore
@@ -80,7 +87,6 @@ async function TrimDocument() {
         }
     ], { synchronousExecution: false, modalBehavior: 'fail' });
 }
-exports.TrimDocument = TrimDocument;
 async function CreateGuide(documentID, position, orientation) {
     const result = await photoshop_1.action.batchPlay([
         {
@@ -101,7 +107,6 @@ async function CreateGuide(documentID, position, orientation) {
     ], { synchronousExecution: false, modalBehavior: 'fail' });
     return result[0].new._target[1]._index;
 }
-exports.CreateGuide = CreateGuide;
 async function GetGuide(documentId, Index) {
     const result = await photoshop_1.action.batchPlay([
         {
@@ -115,8 +120,8 @@ async function GetGuide(documentId, Index) {
     ], { synchronousExecution: false, modalBehavior: 'fail' });
     return result[0].position._value;
 }
-exports.GetGuide = GetGuide;
 async function Select(Bounds) {
+    console.log('selecting', Bounds);
     return await photoshop_1.action.batchPlay([
         {
             _obj: 'set',
@@ -134,8 +139,8 @@ async function Select(Bounds) {
         }
     ], { synchronousExecution: false, modalBehavior: 'fail' });
 }
-exports.Select = Select;
 async function Deselect(id) {
+    console.log('deselecting');
     await photoshop_1.action.batchPlay([
         {
             _obj: 'set',
@@ -147,7 +152,6 @@ async function Deselect(id) {
         }
     ], { synchronousExecution: false, modalBehavior: 'fail' });
 }
-exports.Deselect = Deselect;
 /* async function GetSelection (id) {
   const result = await batchPlay(
     [
@@ -166,6 +170,7 @@ exports.Deselect = Deselect;
   }
 } */
 async function TranslateSelection(Translation) {
+    console.log('translating', Translation);
     await photoshop_1.action.batchPlay([
         {
             _obj: 'transform',
@@ -179,13 +184,12 @@ async function TranslateSelection(Translation) {
             },
             width: { _unit: 'percentUnit', _value: Translation.WidthPercent },
             height: { _unit: 'percentUnit', _value: Translation.HeightPercent },
-            interfaceIconFrameDimmed: { _enum: 'interpolationType', _value: '"nearestNeighbor"' },
+            interfaceIconFrameDimmed: { _enum: 'interpolationType', _value: 'nearestNeighbor' },
             _isCommand: false,
             _options: { dialogOptions: 'dontDisplay' }
         }
     ], { synchronousExecution: false, modalBehavior: 'fail' });
 }
-exports.TranslateSelection = TranslateSelection;
 async function DeleteHistory() {
     await photoshop_1.action.batchPlay([
         {
@@ -206,5 +210,4 @@ async function DeleteHistory() {
         }
     ], { synchronousExecution: false, modalBehavior: 'fail' });
 }
-exports.DeleteHistory = DeleteHistory;
 //# sourceMappingURL=BatchPlayFunctions.js.map

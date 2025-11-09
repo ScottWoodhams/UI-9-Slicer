@@ -125,6 +125,7 @@ export async function GetGuide (documentId: number, Index: number) {
 }
 
 export async function Select (Bounds: Rect) {
+    console.log('selecting', Bounds)
     return await action.batchPlay(
         [
             {
@@ -145,6 +146,7 @@ export async function Select (Bounds: Rect) {
 }
 
 export async function Deselect (id: number) {
+    console.log('deselecting')
     await action.batchPlay(
         [
             {
@@ -177,6 +179,9 @@ export async function Deselect (id: number) {
 } */
 
 export async function TranslateSelection (Translation: Translation) {
+
+    console.log('translating', Translation)
+
     await action.batchPlay(
         [
             {
@@ -191,7 +196,7 @@ export async function TranslateSelection (Translation: Translation) {
                 },
                 width: { _unit: 'percentUnit', _value: Translation.WidthPercent },
                 height: { _unit: 'percentUnit', _value: Translation.HeightPercent },
-                interfaceIconFrameDimmed: { _enum: 'interpolationType', _value: '"nearestNeighbor"' },
+                interfaceIconFrameDimmed: { _enum: 'interpolationType', _value: 'nearestNeighbor' },
                 _isCommand: false,
                 _options: { dialogOptions: 'dontDisplay' }
             }

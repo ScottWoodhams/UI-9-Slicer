@@ -1,11 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.ExecuteSlice = exports.ReadGuides = exports.CalculatePowerOfSize = exports.nearestPowerOf2 = void 0;
+exports.nearestPowerOf2 = nearestPowerOf2;
+exports.CalculatePowerOfSize = CalculatePowerOfSize;
+exports.ReadGuides = ReadGuides;
+exports.ExecuteSlice = ExecuteSlice;
 const BatchPlayFunctions_1 = require("./BatchPlayFunctions");
 function nearestPowerOf2(n) {
     return 1 << 31 - Math.clz32(n);
 }
-exports.nearestPowerOf2 = nearestPowerOf2;
 async function CalculatePowerOfSize(documentID) {
     const guides = await ReadGuides(documentID);
     const widthDelta = guides.Right - guides.Left;
@@ -14,7 +16,6 @@ async function CalculatePowerOfSize(documentID) {
     let newHeight = nearestPowerOf2(heightDelta);
     return { newWidth, newHeight };
 }
-exports.CalculatePowerOfSize = CalculatePowerOfSize;
 async function ReadGuides(documentID) {
     let Top = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 1));
     let Left = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 2));
@@ -22,7 +23,6 @@ async function ReadGuides(documentID) {
     let Right = Math.floor(await (0, BatchPlayFunctions_1.GetGuide)(documentID, 4));
     return new BatchPlayFunctions_1.Rect(Top, Left, Bottom, Right);
 }
-exports.ReadGuides = ReadGuides;
 async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePercent, po2) {
     const ZO = 0;
     const ST = Slices.Top;
@@ -68,7 +68,6 @@ async function ExecuteSlice(Slices, CanvasWidth, CanvasHeight, DocID, ScalePerce
     await SelectAndTranslate(SE, SETranslation, DocID);
     await (0, BatchPlayFunctions_1.TrimDocument)();
 }
-exports.ExecuteSlice = ExecuteSlice;
 async function SelectAndTranslate(Bounds, Translation, DocID) {
     await (0, BatchPlayFunctions_1.Select)(Bounds);
     await (0, BatchPlayFunctions_1.TranslateSelection)(Translation);
